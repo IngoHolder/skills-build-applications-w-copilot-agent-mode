@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { CapabilityCard } from './CapabilityCard.js';
 
@@ -7,6 +8,7 @@ export default function Workouts() {
   const userEmail = 'mona@example.com';
   const { data, loading, error } = useApiData<{ suggestions: Suggestion[] }>(
     `/api/workouts/suggestions/${encodeURIComponent(userEmail)}`,
+    getJson,
   );
   const suggestions = data?.suggestions ?? [];
 

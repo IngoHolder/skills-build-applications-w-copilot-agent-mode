@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { getJson } from '../api/client.js';
 
 type ApiDataState<T> = {
   data: T | null;
@@ -7,7 +6,9 @@ type ApiDataState<T> = {
   error: Error | null;
 };
 
-export function useApiData<T>(path: string): ApiDataState<T> {
+type JsonGetter = <T>(path: string) => Promise<T>;
+
+export function useApiData<T>(path: string, getJson: JsonGetter): ApiDataState<T> {
   const [state, setState] = useState<ApiDataState<T>>({
     data: null,
     loading: true,
@@ -34,7 +35,7 @@ export function useApiData<T>(path: string): ApiDataState<T> {
     return () => {
       active = false;
     };
-  }, [path]);
+  }, [path, getJson]);
 
   return state;
 }

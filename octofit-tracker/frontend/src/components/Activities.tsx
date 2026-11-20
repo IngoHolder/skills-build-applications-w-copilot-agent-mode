@@ -1,3 +1,4 @@
+import { getJson } from '../api/client.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { CapabilityCard } from './CapabilityCard.js';
 
@@ -9,7 +10,7 @@ type Activity = {
 };
 
 export default function Activities() {
-  const { data, loading, error } = useApiData<{ activities: Activity[] }>('/api/activities');
+  const { data, loading, error } = useApiData<{ activities: Activity[] }>('/api/activities', getJson);
   const activities = data?.activities ?? [];
 
   return (

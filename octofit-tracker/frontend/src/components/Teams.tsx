@@ -1,10 +1,11 @@
+import { getJson } from '../api/client.js';
 import { useApiData } from '../hooks/useApiData.js';
 import { CapabilityCard } from './CapabilityCard.js';
 
 type Team = { name: string; members: string[] };
 
 export default function Teams() {
-  const { data, loading, error } = useApiData<{ teams: Team[] }>('/api/teams');
+  const { data, loading, error } = useApiData<{ teams: Team[] }>('/api/teams', getJson);
   const teams = data?.teams ?? [];
 
   return (

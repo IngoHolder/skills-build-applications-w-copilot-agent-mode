@@ -1,4 +1,24 @@
+import { useApiData } from '../hooks/useApiData.js';
 import { CapabilityCard } from './CapabilityCard.js';
+
+type Entry = { teamName: string; totalPoints: number; rank: number };
+
 export default function Leaderboard() {
-  return <CapabilityCard title="Leaderboard" description="Compare team point totals." />;
+  const { data, loading, error } = useApiData<{ leaderboard: Entry[] }>('/api/leaderboard');
+  const leaderboard = data?.leaderboard ?? [];
+
+  return (
+    <CapabilityCard
+      title="Leaderboard"
+      description="Compare team point totals."
+      loading={loading}
+      error={error}
+      empty={!loading && !error && leaderboard.length === 0}
+      emptyMessage="No leaderboard rankings yet."
+    >
+      {leaderboard.map((entry) => (
+        <p key={entry.rank}>{entry.rank}. {entry.teamName}: {entry.totalPoints} points</p>
+      ))}
+    </CapabilityCard>
+  );
 }
